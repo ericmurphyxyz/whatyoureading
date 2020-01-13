@@ -1,27 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Router from "next/router";
-
 import app from "../components/base";
+import { AuthContext } from "../components/Auth";
 
-const Signup = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignup = async event => {
+  const handleLogin = async event => {
     event.preventDefault();
 
     try {
-      await app.auth().createUserWithEmailAndPassword(email, password);
+      await app.auth().signInWithEmailAndPassword(email, password);
       Router.push("/");
     } catch (error) {
       alert(error);
     }
   };
 
+  const { user } = useContext(AuthContext);
+
+  if (user) {
+    Router.push("/");
+  }
+
   return (
     <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSignup}>
+      <h1>Log In</h1>
+      <form onSubmit={handleLogin}>
         <label>
           Email
           <input
@@ -42,10 +48,10 @@ const Signup = () => {
             value={password}
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button type="submit">Log In</button>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Login;

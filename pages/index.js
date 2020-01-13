@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
+import Router from "next/router";
+import app from "../components/base";
+import { AuthContext } from "../components/Auth";
 
 const Home = () => {
-  return <div>Hello and welcome!</div>;
+  const handleLogout = async () => {
+    await app.auth().signOut();
+    Router.push("/login");
+  };
+
+  const { user } = useContext(AuthContext);
+
+  return (
+    user && (
+      <div>
+        <h1>Hello {user.email}!</h1>
+        <button onClick={handleLogout}>Sign out</button>
+      </div>
+    )
+  );
 };
 
 export default Home;
