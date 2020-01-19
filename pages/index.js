@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Router from "next/router";
-import app from "../components/base";
+import app from "../components/firebase";
+import BookList from "../components/booklist";
 import { AuthContext } from "../components/Auth";
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
     user && (
       <div>
         <h1>Hello {user.email}!</h1>
+        <BookList></BookList>
         <button onClick={handleLogout}>Sign out</button>
       </div>
     )

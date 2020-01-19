@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import Router from "next/router";
-import app from "../components/base";
+import app from "../components/firebase";
 import { AuthContext } from "../components/Auth";
 
 const Login = () => {

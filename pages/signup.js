@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Router from "next/router";
 
-import app from "../components/base";
+import app from "../components/firebase";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -10,8 +10,20 @@ const Signup = () => {
   const handleSignup = async event => {
     event.preventDefault();
 
+    const database = app.firestore();
+
     try {
+      // Create user
       await app.auth().createUserWithEmailAndPassword(email, password);
+      // Get the created user
+      const user = app.auth().currentUser;
+      // Create database entry for user/booklist
+      await database
+        .collection("users")
+        .doc(user.email)
+        .set({
+          list: []
+        });
       Router.push("/");
     } catch (error) {
       alert(error);
