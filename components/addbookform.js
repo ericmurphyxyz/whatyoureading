@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import firebase from "firebase/app"; // Import firebase to use FieldValue functions
 import app from "./firebase";
 import { AuthContext } from "./Auth";
+import StarRating from "./starrating";
 
 const AddBookForm = () => {
   const { user } = useContext(AuthContext);
@@ -15,19 +16,13 @@ const AddBookForm = () => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    const { title, author, date } = values;
-
     // Add book details to user's list in database
     const database = app.firestore();
     database
       .collection("users")
       .doc(user.email)
       .update({
-        list: firebase.firestore.FieldValue.arrayUnion({
-          title,
-          author,
-          date
-        })
+        list: firebase.firestore.FieldValue.arrayUnion(values)
       });
   };
 
@@ -41,6 +36,7 @@ const AddBookForm = () => {
     // Form input values
     title: "",
     author: "",
+    rating: 0,
     date: getDate()
   });
 
@@ -54,6 +50,13 @@ const AddBookForm = () => {
         <label>
           Author
           <input name="author" type="text" onChange={handleChange} />
+        </label>
+        <label>
+          Rating
+          <StarRating
+            handleChange={handleChange}
+            rating={values.rating}
+          ></StarRating>
         </label>
         <label>
           Date Finished
