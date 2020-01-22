@@ -1,5 +1,8 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
+
+const primary = "#1890ff";
+const primaryHover = "#40a9ff";
 
 export const Wrapper = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -7,9 +10,32 @@ export const Wrapper = styled.div`
   font-size: 1rem;
   line-height: 1.5;
 
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+
   * {
     box-sizing: border-box;
   }
+
+  a {
+    color: ${primary};
+    text-decoration: none;
+
+    transition: color 200ms;
+
+    &:hover {
+      color: ${primaryHover};
+    }
+  }
+`;
+
+export const Container = styled.div`
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  padding-bottom: 6em;
+  margin: 0 auto;
 `;
 
 export const Form = styled.form``;
@@ -22,7 +48,7 @@ export const Label = styled.label`
 
 export const Input = styled.input`
   width: 100%;
-  max-width: 425px;
+  max-width: 100%;
   /* Fix for Safari/iOS date fields */
   min-height: calc(0.9em + (0.8em * 2) + 0.6em);
   padding: 0.8em;
@@ -47,6 +73,13 @@ export const Input = styled.input`
     error && `border-color: #f5222d !important; box-shadow: none !important;`}
 `;
 
+export const SubLabel = styled.span`
+  display: block;
+  margin-top: -5px;
+  padding-bottom: 10px;
+  font-size: 0.8em;
+`;
+
 export const Error = styled.span`
   display: block;
   padding-top: 10px;
@@ -59,8 +92,8 @@ export const Button = styled.button`
   color: #fff;
   font-size: 1.1em;
   font-weight: 600;
-  background-color: #1890ff;
-  border: 1px solid #1890ff;
+  background-color: ${primary};
+  border: 1px solid ${primary};
   border-radius: 4px;
   cursor: pointer;
 
@@ -75,8 +108,8 @@ export const Button = styled.button`
   &:hover,
   &:focus {
     transform: translateY(-2px);
-    background-color: #40a9ff;
-    border-color: #40a9ff;
+    background-color: ${primaryHover};
+    border-color: ${primaryHover};
     box-shadow: 0 7px 1em rgba(24, 144, 255, 0.25);
   }
 `;

@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 import Router from "next/router";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import app from "../components/firebase";
 import { AuthContext } from "../components/Auth";
 import {
+  Container,
   Form,
   Label,
   Input,
@@ -35,8 +37,15 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <Container>
       <h1>Log In</h1>
+      <p>
+        Welcome back! If you don't have an account yet, you can{" "}
+        <Link href="/signup">
+          <a>sign up</a>
+        </Link>
+        .
+      </p>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Label>Email</Label>
         <Input
@@ -58,7 +67,7 @@ const Login = () => {
           {!loading ? "Log In" : <Loading />}
         </Button>
       </Form>
-    </div>
+    </Container>
   );
 };
 
