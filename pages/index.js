@@ -16,7 +16,7 @@ const Home = () => {
     user && (
       <div>
         <h1>Hello {user.email}!</h1>
-        <BookList></BookList>
+        <BookList />
         <button onClick={handleLogout}>Sign out</button>
       </div>
     )

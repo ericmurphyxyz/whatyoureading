@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
 import app from "../components/firebase";
+import {
+  Form,
+  Label,
+  Input,
+  Error,
+  Button,
+  Loading
+} from "../components/design";
 
 const Signup = () => {
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = async ({ email, password }) => {
+    setLoading(true);
     const database = app.firestore();
 
     try {
@@ -23,6 +33,7 @@ const Signup = () => {
         });
       Router.push("/");
     } catch (error) {
+      setLoading(false);
       alert(error);
     }
   };
@@ -30,23 +41,27 @@ const Signup = () => {
   return (
     <div>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
-          Email
-          <input name="email" type="email" ref={register({ required: true })} />
-        </label>
-        {errors.email && "Email is required."}
-        <label>
-          Password
-          <input
-            name="password"
-            type="password"
-            ref={register({ required: true })}
-          />
-        </label>
-        {errors.password && "Password is required."}
-        <button type="submit">Sign Up</button>
-      </form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Label htmlFor="email">Email</Label>
+        <Input
+          name="email"
+          id="email"
+          type="email"
+          ref={register({ required: true })}
+          error={errors.email}
+        />
+        {errors.email && <Error>Email is required.</Error>}
+        <Label htmlFor="password">Password</Label>
+        <Input
+          name="password"
+          id="password"
+          type="password"
+          ref={register({ required: true })}
+          error={errors.password}
+        />
+        {errors.password && <Error>Password is required.</Error>}
+        <Button type="submit">{!loading ? "Sign Up" : <Loading />}</Button>
+      </Form>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import app from "./firebase";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "./Auth";
 import StarRating from "./starrating";
+import { Form, Label, Input, Error, Button } from "./design";
 
 const AddBookForm = () => {
   const { user } = useContext(AuthContext);
@@ -28,30 +29,30 @@ const AddBookForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
-          Title
-          <input name="title" type="text" ref={register} />
-        </label>
-        <label>
-          Author
-          <input name="author" type="text" ref={register} />
-        </label>
-        <label>
-          Rating
-          <StarRating register={register}></StarRating>
-        </label>
-        <label>
-          Date Finished
-          <input
-            name="date"
-            type="date"
-            defaultValue={getDate()}
-            ref={register}
-          />
-        </label>
-        <button type="submit">Add Book</button>
-      </form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Label htmlFor="title">Title</Label>
+        <Input
+          name="title"
+          id="title"
+          type="text"
+          ref={register({ required: true })}
+          error={errors.title}
+        />
+        {errors.title && <Error>Book title is required.</Error>}
+        <Label htmlFor="author">Author</Label>
+        <Input name="author" id="author" type="text" ref={register} />
+        <Label>Rating</Label>
+        <StarRating register={register}></StarRating>
+        <Label htmlFor="date">Date Finished</Label>
+        <Input
+          name="date"
+          id="date"
+          type="date"
+          defaultValue={getDate()}
+          ref={register}
+        />
+        <Button type="submit">Add Book</Button>
+      </Form>
     </div>
   );
 };

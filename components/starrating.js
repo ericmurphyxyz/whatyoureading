@@ -10,8 +10,8 @@ const StarInput = styled.input`
 
 const StarIcon = styled(FaStar)`
   cursor: pointer;
-
   fill: ${({ selected }) => (selected ? "#ffc107" : "#e4e5e9")};
+  transition: 200ms fill ease-in-out;
 `;
 
 const StarRating = ({ register }) => {
@@ -20,7 +20,7 @@ const StarRating = ({ register }) => {
   const [hover, setHover] = useState(null);
 
   return (
-    <div>
+    <>
       {/* Create an array with a length of 5 to map over and create 5 stars */}
       {[...Array(5)].map((x, i) => {
         const ratingValue = i + 1;
@@ -35,7 +35,7 @@ const StarRating = ({ register }) => {
               onClick={() => setRating(ratingValue)}
             />
             <StarIcon
-              size={24}
+              size={20}
               selected={ratingValue <= (hover || rating || 0)}
               onMouseEnter={() => setHover(ratingValue)}
               onMouseLeave={() => setHover(null)}
@@ -43,7 +43,7 @@ const StarRating = ({ register }) => {
           </label>
         );
       })}
-    </div>
+    </>
   );
 };
 
