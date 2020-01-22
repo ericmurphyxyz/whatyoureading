@@ -14,7 +14,8 @@ const StarIcon = styled(FaStar)`
   fill: ${({ selected }) => (selected ? "#ffc107" : "#e4e5e9")};
 `;
 
-const StarRating = ({ handleChange, rating }) => {
+const StarRating = ({ register }) => {
+  const [rating, setRating] = useState(null);
   // Set what index is being hovered over for hover effect
   const [hover, setHover] = useState(null);
 
@@ -30,10 +31,11 @@ const StarRating = ({ handleChange, rating }) => {
               type="radio"
               name="rating"
               value={ratingValue}
-              onClick={event => handleChange(event)}
+              ref={register}
+              onClick={() => setRating(ratingValue)}
             />
             <StarIcon
-              size={30}
+              size={24}
               selected={ratingValue <= (hover || rating || 0)}
               onMouseEnter={() => setHover(ratingValue)}
               onMouseLeave={() => setHover(null)}

@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Router from "next/router";
-
+import { useForm } from "react-hook-form";
 import app from "../components/firebase";
 
 const Signup = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit, errors } = useForm();
 
-  const handleSignup = async event => {
-    event.preventDefault();
-
+  const onSubmit = async ({ email, password }) => {
     const database = app.firestore();
 
     try {
@@ -33,27 +30,21 @@ const Signup = () => {
   return (
     <div>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSignup}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Email
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            onChange={event => setEmail(event.target.value)}
-            value={email}
-          />
+          <input name="email" type="email" ref={register({ required: true })} />
         </label>
+        {errors.email && "Email is required."}
         <label>
           Password
           <input
             name="password"
             type="password"
-            placeholder="Password"
-            onChange={event => setPassword(event.target.value)}
-            value={password}
+            ref={register({ required: true })}
           />
         </label>
+        {errors.password && "Password is required."}
         <button type="submit">Sign Up</button>
       </form>
     </div>

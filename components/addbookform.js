@@ -1,28 +1,22 @@
 import React, { useState, useContext } from "react";
 import firebase from "firebase/app"; // Import firebase to use FieldValue functions
 import app from "./firebase";
+import { useForm } from "react-hook-form";
 import { AuthContext } from "./Auth";
 import StarRating from "./starrating";
 
 const AddBookForm = () => {
   const { user } = useContext(AuthContext);
+  const { register, handleSubmit, errors } = useForm();
 
-  const handleChange = event => {
-    // Update values object with changes from form inputs
-    const { name, value } = event.target;
-    setValues({ ...values, [name]: value });
-  };
-
-  const handleSubmit = event => {
-    event.preventDefault();
-
+  const onSubmit = data => {
     // Add book details to user's list in database
     const database = app.firestore();
     database
       .collection("users")
       .doc(user.email)
       .update({
-        list: firebase.firestore.FieldValue.arrayUnion(values)
+        list: firebase.firestore.FieldValue.arrayUnion(data)
       });
   };
 
@@ -32,31 +26,20 @@ const AddBookForm = () => {
     return currentDate.toISOString().substr(0, 10);
   };
 
-  const [values, setValues] = useState({
-    // Form input values
-    title: "",
-    author: "",
-    rating: 0,
-    date: getDate()
-  });
-
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Title
-          <input name="title" type="text" onChange={handleChange} />
+          <input name="title" type="text" ref={register} />
         </label>
         <label>
           Author
-          <input name="author" type="text" onChange={handleChange} />
+          <input name="author" type="text" ref={register} />
         </label>
         <label>
           Rating
-          <StarRating
-            handleChange={handleChange}
-            rating={values.rating}
-          ></StarRating>
+          <StarRating register={register}></StarRating>
         </label>
         <label>
           Date Finished
@@ -64,7 +47,7 @@ const AddBookForm = () => {
             name="date"
             type="date"
             defaultValue={getDate()}
-            onChange={handleChange}
+            ref={register}
           />
         </label>
         <button type="submit">Add Book</button>

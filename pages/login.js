@@ -1,15 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Router from "next/router";
+import { useForm } from "react-hook-form";
 import app from "../components/firebase";
 import { AuthContext } from "../components/Auth";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit, errors } = useForm();
 
-  const handleLogin = async event => {
-    event.preventDefault();
-
+  const onSubmit = async ({ email, password }) => {
     try {
       await app.auth().signInWithEmailAndPassword(email, password);
       Router.push("/");
@@ -27,27 +25,21 @@ const Login = () => {
   return (
     <div>
       <h1>Log In</h1>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Email
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            onChange={event => setEmail(event.target.value)}
-            value={email}
-          />
+          <input name="email" type="email" ref={register({ required: true })} />
         </label>
+        {errors.email && "Email is required."}
         <label>
           Password
           <input
             name="password"
             type="password"
-            placeholder="Password"
-            onChange={event => setPassword(event.target.value)}
-            value={password}
+            ref={register({ required: true })}
           />
         </label>
+        {errors.password && "Password is required."}
         <button type="submit">Log In</button>
       </form>
     </div>
