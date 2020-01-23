@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import firebase from "firebase/app"; // Import firebase to use FieldValue functions
 import app from "./firebase";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "./Auth";
+import { AuthContext } from "./auth";
 import StarRating from "./starrating";
 import { Form, Label, Input, Error, Button } from "./design";
 
@@ -38,8 +38,6 @@ const AddBookForm = () => {
         error={errors.title}
       />
       {errors.title && <Error>Book title is required.</Error>}
-      <Label htmlFor="author">Author</Label>
-      <Input name="author" id="author" type="text" ref={register} />
       <Label>Rating</Label>
       <StarRating register={register}></StarRating>
       <Label htmlFor="date">Date Finished</Label>

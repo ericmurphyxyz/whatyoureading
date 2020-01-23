@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
 import app from "../components/firebase";
+import { AuthContext } from "../components/auth";
 import {
   Container,
   Form,
@@ -47,7 +48,15 @@ const Signup = () => {
     }
   };
 
-  return (
+  const { user, userLoading } = useContext(AuthContext);
+
+  if (user) {
+    Router.push("/");
+  }
+
+  return user !== null ? (
+    <Loading page />
+  ) : (
     <Container>
       <h1>Sign Up</h1>
       <p>You're one step away from setting up your booklist.</p>

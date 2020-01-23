@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthProvider } from "../components/Auth";
+import { AuthProvider } from "../components/auth";
 import { Wrapper } from "../components/design";
 import "../style.css";
 

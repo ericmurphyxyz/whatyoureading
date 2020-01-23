@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
 
   min-height: 100vh;
   display: flex;
+  justify-content: center;
   align-items: center;
 
   * {
@@ -120,7 +121,6 @@ const StyledLoading = styled.svg`
   height: 28px;
 
   & .path {
-    stroke: #fff;
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite;
   }
@@ -146,13 +146,14 @@ const StyledLoading = styled.svg`
   }
 `;
 
-export const Loading = () => (
+export const Loading = ({ page }) => (
   <StyledLoading viewBox="0 0 50 50">
     <circle
       className="path"
       cx="25"
       cy="25"
       r="20"
+      stroke={page ? primary : "#fff"}
       fill="none"
       strokeWidth="4"
     />

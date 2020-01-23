@@ -4,10 +4,12 @@ import app from "./firebase";
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    app.auth().onAuthStateChanged(setUser);
+    app.auth().onAuthStateChanged(user => {
+      setUser(user);
+    });
   }, []);
 
   return (

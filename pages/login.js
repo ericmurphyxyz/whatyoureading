@@ -3,7 +3,7 @@ import Router from "next/router";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import app from "../components/firebase";
-import { AuthContext } from "../components/Auth";
+import { AuthContext } from "../components/auth";
 import {
   Container,
   Form,
@@ -30,13 +30,15 @@ const Login = () => {
     }
   };
 
-  const { user } = useContext(AuthContext);
+  const { user, userLoading } = useContext(AuthContext);
 
   if (user) {
     Router.push("/");
   }
 
-  return (
+  return user !== null ? (
+    <Loading page />
+  ) : (
     <Container>
       <h1>Log In</h1>
       <p>
